@@ -1,0 +1,32 @@
+{% load bootstrap3 %}
+
+<html>
+
+<head>
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+
+<body class="gray-bg">
+
+<div class="middle-box text-center loginscreen animated fadeInDown">
+    <div>
+        <div>
+            <h1 class="logo-name">Django Concierge</h1>
+        </div>
+
+        {% bootstrap_messages %}
+
+        <div class="container">
+            {% block content %}
+            {% endblock %}
+        </div>
+
+        <p class="m-t">
+            <small><a href="https://github.com/silverfix/django-concierge">Django Concierge</a></small>
+        </p>
+    </div>
+</div>
+
+</body>
+</html>
