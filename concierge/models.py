@@ -3,8 +3,8 @@
 from __future__ import unicode_literals, division, absolute_import
 
 from django.contrib.auth.base_user import BaseUserManager
-from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.db import models as db_models
+from django.contrib.auth import models as auth_models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
@@ -34,18 +34,18 @@ class UserManager(BaseUserManager):
         return self._create_user(email, password, **extra_fields)
 
 
-class User(AbstractBaseUser, PermissionsMixin):
+class AbstractUser(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
     objects = UserManager()
     USERNAME_FIELD = 'email'
 
-    email = models.EmailField(unique=True)
-    date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
-    is_staff = models.BooleanField(
+    email = db_models.EmailField(unique=True)
+    date_joined = db_models.DateTimeField(_('date joined'), default=timezone.now)
+    is_staff = db_models.BooleanField(
         _('staff status'),
         default=False,
         help_text=_('Designates whether the user can log into this admin site.'),
     )
-    is_active = models.BooleanField(
+    is_active = db_models.BooleanField(
         _('active'),
         default=True,
         help_text=_(
@@ -54,8 +54,15 @@ class User(AbstractBaseUser, PermissionsMixin):
         ),
     )
 
+    class Meta:
+        abstract = True
+
     def get_full_name(self):
         return self.email
 
     def get_short_name(self):
         return self.email
+
+
+class User(AbstractUser):
+    pass
