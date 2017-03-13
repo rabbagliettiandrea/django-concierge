@@ -21,6 +21,5 @@ setup(
     description='Concierge is yet another signup/registration app',
     install_requires=[
         'django>=1.8',
-        'fabric'
     ]
 )
